@@ -63,9 +63,6 @@ int main(int argc, char **argv) {
 
     // Our data vector
     vector<double> dataIMU = vector<double>();
-    vector<double> dataVICON = vector<double>();
-    vector<double> dataODOM = vector<double>();
-    vector<vector<double>> dataAPRIl = vector<vector<double>>();
 
     // Step through the rosbag and send to algo methods
     for (const rosbag::MessageInstance& m : view) {
