@@ -14,7 +14,8 @@ Gyroscope "white noise" | `gyroscope_noise_density` | <img src="https://latex.co
 Accelerometer "white noise" | `accelerometer_noise_density` | <img src="https://latex.codecogs.com/svg.latex?{%5Csigma_a}"> | <img src="https://latex.codecogs.com/svg.latex?{%5Cfrac%7Bm%7D%7Bs^2%7D%5Cfrac%7B1%7D%7B%5Csqrt%7BHz%7D%7D}">
 Gyroscope "random walk" | `gyroscope_random_walk` | <img src="https://latex.codecogs.com/svg.latex?{%5Csigma_b_g}"> | <img src="https://latex.codecogs.com/svg.latex?{%5Cfrac%7Brad%7D%7Bs^2%7D%5Cfrac%7B1%7D%7B%5Csqrt%7BHz%7D%7D}">
 Accelerometer "random walk" | `accelerometer_random_walk` | <img src="https://latex.codecogs.com/svg.latex?{%5Csigma_b_a}"> | <img src="https://latex.codecogs.com/svg.latex?{%5Cfrac%7Bm%7D%7Bs^3%7D%5Cfrac%7B1%7D%7B%5Csqrt%7BHz%7D%7D}">
-IMU sampling rate | `update_rate` | <img src="https://latex.codecogs.com/svg.latex?{%5Cfrac%7B1%7D%7B%5CDelta%20t%7D}"> | <img src="https://latex.codecogs.com/svg.latex?{Hz}">
+
+
 
 
 ## Experiment Steps
@@ -28,7 +29,7 @@ IMU sampling rate | `update_rate` | <img src="https://latex.codecogs.com/svg.lat
     * We do *not* recommend the ROS version as matlab parsing of raw ROS bags is slow
     * If using ROS version, it uses the matlab robotics toolbox
     * If using the parallel version, it uses the matlab parallel toolbox
-
+4. TODO: Interpret the generated charts to find noise values
 
 
 
