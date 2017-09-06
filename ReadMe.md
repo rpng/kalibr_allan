@@ -33,5 +33,7 @@ Accelerometer "random walk" | `accelerometer_random_walk` | <img src="https://la
 
 
 
+## Example Plots (xsens mti-G-700)
+![allan chart acceleration](docs/example_acceleration.png)
 
-
+![allan chart angular velocity](docs/example_angular.png)
