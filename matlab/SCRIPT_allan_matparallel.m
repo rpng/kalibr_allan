@@ -43,8 +43,8 @@ fprintf('sample period of %.5f.\n',delta);
 
 % Calculate our tau range (max is half of the total measurements)
 taumax = floor((length(ts_imua.Time)-1)/2);
-%tau = logspace(log10(delta),log10(taumax),taumax);
-tau = delta*linspace(1,taumax,500);
+tau = delta*logspace(log10(delta),log10(taumax),1000);
+%tau = delta*linspace(1,taumax,500);
 
 
 %% Calculate the acceleration allan deviation of the time series data!
@@ -55,28 +55,59 @@ data2.rate = update_rate;
 data2.freq = ts_imua.data(:,2)';
 data3.rate = update_rate;
 data3.freq = ts_imua.data(:,3)';
+data4.rate = update_rate;
+data4.freq = ts_imuw.data(:,1)';
+data5.rate = update_rate;
+data5.freq = ts_imuw.data(:,2)';
+data6.rate = update_rate;
+data6.freq = ts_imuw.data(:,3)';
 
-fprintf('calculating acceleration allan deviation.\n');
+fprintf('calculating allan deviation.\n');
 tic;
-j1 = batch(@allan,1,{data1,tau});
-j2 = batch(@allan,1,{data2,tau});
-j3 = batch(@allan,1,{data3,tau});
+cluster = parcluster();
+j1 = batch(cluster,@allan,1,{data1,tau});
+j2 = batch(cluster,@allan,1,{data2,tau});
+j3 = batch(cluster,@allan,1,{data3,tau});
+j4 = batch(cluster,@allan,1,{data4,tau});
+j5 = batch(cluster,@allan,1,{data5,tau});
+j6 = batch(cluster,@allan,1,{data6,tau});
 
 % Wait for the jobs to finish
 wait(j1)
 wait(j2)
 wait(j3)
+wait(j4)
+wait(j5)
+wait(j6)
 
 % Get results into a cell array
 r1 = fetchOutputs(j1);
 r2 = fetchOutputs(j2);
 r3 = fetchOutputs(j3);
+r4 = fetchOutputs(j4);
+r5 = fetchOutputs(j5);
+r6 = fetchOutputs(j6);
 results_ax = r1{1};
 results_ay = r2{1};
 results_az = r3{1};
+results_wx = r4{1};
+results_wy = r5{1};
+results_wz = r6{1};
+
+% Finally cleanup
+delete(j1)
+delete(j2)
+delete(j3)
+delete(j4)
+delete(j5)
+delete(j6)
 toc;
 
-% Plot the results on a figure
+% Save workspace
+save(['../data/',datestr(now,30)])
+
+
+%% Plot the results on a figure
 figure(1);
 loglog(results_ax.tau1, sqrt(results_ax.sig2)); hold on;
 loglog(results_ay.tau1, sqrt(results_ay.sig2)); hold on;
@@ -85,38 +116,6 @@ grid on;
 xlabel('\tau [sec]');
 ylabel('Normal Allan Deviation [m/s^2]');
 legend('x-acceleration','y-acceleration','z-acceleration');
-
-pause(5)
-
-
-%% Calculate the angular allan deviation of the time series data!
-
-data1.rate = update_rate;
-data1.freq = ts_imuw.data(:,1)';
-data2.rate = update_rate;
-data2.freq = ts_imuw.data(:,2)';
-data3.rate = update_rate;
-data3.freq = ts_imuw.data(:,3)';
-
-fprintf('calculating angular allan deviation.\n');
-tic;
-j1 = batch(@allan,1,{data1,tau});
-j2 = batch(@allan,1,{data2,tau});
-j3 = batch(@allan,1,{data3,tau});
-
-% Wait for the jobs to finish
-wait(j1)
-wait(j2)
-wait(j3)
-
-% Get results into a cell array
-r1 = fetchOutputs(j1);
-r2 = fetchOutputs(j2);
-r3 = fetchOutputs(j3);
-results_wx = r1{1};
-results_wy = r2{1};
-results_wz = r3{1};
-toc;
 
 % Plot the results on a figure
 figure(2);
@@ -131,17 +130,16 @@ legend('x-angular','y-angular','z-angular');
 
 
 %% Output results for yaml file
-fprintf('\n=================================\n');
-
+fprintf('\n\n=================================\n');
 fprintf('rostopic: /imu0\n');
-fprintf('update_rate: %.2f\n',freq);
-fprintf('\n#Accelerometers\n');
+fprintf('update_rate: %.2f\n',update_rate);
+fprintf('#Accelerometers\n');
 fprintf('accelerometer_noise_density: %.5f.\n',accelerometer_noise_density);
 fprintf('accelerometer_random_walk: %.5f.\n',0.0);
-fprintf('\n#Gyroscopes\n');
+fprintf('#Gyroscopes\n');
 fprintf('gyroscope_noise_density: %.5f.\n',gyroscope_noise_density);
 fprintf('gyroscope_random_walk: %.5f.\n',0.0);
-
+fprintf('=================================\n');
 
 
 

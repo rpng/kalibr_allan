@@ -1,3 +1,4 @@
 *.bag
+*.mat
 *.*~
 build
