@@ -1,0 +1,34 @@
+<package>
+
+  <name>bagconvert</name>
+  <version>1.0.0</version>
+  <description>
+  This package provides dataset parsing of rosbags to matlab format.
+  </description>
+  <maintainer email="pgeneva@udel.edu">Patrick Geneva</maintainer>
+  <author>Patrick Geneva</author>
+
+  <!-- Licensing -->
+  <license>MIT</license>
+
+  <!-- Dependencies which this package needs to build itself. -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Dependencies needed to compile this package. -->
+  <build_depend>cmake_modules</build_depend> <!-- for FindEigen.cmake -->
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>rosbag</build_depend>
+
+
+  <!-- Dependencies needed after this package is compiled. -->
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>rosbag</run_depend>
+
+
+</package>
