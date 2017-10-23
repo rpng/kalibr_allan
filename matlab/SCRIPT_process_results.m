@@ -78,30 +78,7 @@ fprintf('accelerometer_noise_density = %.6f [fitted line]\n',h_fit(tauid));
 
 
 
-%% Plot the results on a figure
-fh2 = figure(2);
-loglog(results_wx.tau1, sqrt(results_wx.sig2)); hold on;
-loglog(results_wy.tau1, sqrt(results_wy.sig2)); hold on;
-loglog(results_wz.tau1, sqrt(results_wz.sig2)); hold on;
-grid on;
-xlabel('\tau [sec]');
-ylabel('Normal Allan Deviation [rad/s]');
-legend('x-angular','y-angular','z-angular');
 
-
-% Find location of tau=1 by finding where difference is near zero
-tauref = 1;
-taudiff = abs(results_wx.tau1-tauref);
-tauid = find(taudiff == min(taudiff));
-%fprintf('taug = %.2f | taug-id = %d\n',results_wx.tau1(tauid),tauid);
-siggs = [sqrt(results_wx.sig2(tauid)),sqrt(results_wy.sig2(tauid)),sqrt(results_wz.sig2(tauid))];
-fprintf('= sigg_x: %.6f\n',siggs(1));
-fprintf('= sigg_y: %.6f\n',siggs(2));
-fprintf('= sigg_z: %.6f\n',siggs(3));
-fprintf('gyroscope_noise_density = %.6f\n\n',mean(siggs));
-
-
-
-% Save to file
+%% Save to file
 %print(fh1,'-dpng','-r500','../data/allan_linear_acceleration.png')
 %print(fh2,'-dpng','-r500','../data/allan_angular_velocity.png')
