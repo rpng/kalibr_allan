@@ -3,22 +3,13 @@ close all
 clear all
 
 % Read in our toolboxes
-addpath('functions')
+addpath('functions/allan_v3')
 
 % Our bag information
 mat_path = '../data/imu.mat';
 
 % IMU information (todo: move this to the yaml file)
 update_rate = 400;
-
-% xsens mti-G-700 (page 32 and 33)
-% https://www.xsens.com/download/usermanual/MTi_usermanual.pdf
-gyroscope_noise_density = 0.01; %datasheet => deg/s/sqrt(Hz)
-accelerometer_noise_density = 60; %datasheet => µg/sqrt(Hz)
-
-% Convert to kalibr format
-gyroscope_noise_density = pi/180*gyroscope_noise_density; %convert to => rad/s/sqrt(Hz)
-accelerometer_noise_density = 10e-6*9.81*accelerometer_noise_density; %convert to => m/s^2/sqrt(Hz)
 
 
 %% Data processing
@@ -43,8 +34,8 @@ fprintf('sample period of %.5f.\n',delta);
 
 % Calculate our tau range (max is half of the total measurements)
 taumax = floor((length(ts_imua.Time)-1)/2);
-tau = delta*logspace(log10(delta),log10(taumax),1000);
-%tau = delta*linspace(1,taumax,500);
+%tau = delta*logspace(log10(delta),log10(taumax),1000);
+tau = delta*linspace(1,taumax,1000);
 
 
 %% Calculate the acceleration allan deviation of the time series data!
@@ -101,10 +92,12 @@ delete(j3)
 delete(j4)
 delete(j5)
 delete(j6)
-toc;
+toc
 
 % Save workspace
 save(['../data/',datestr(now,30)])
+%save('../data/results.mat','ts_imua','ts_imuw','tau','results_ax','results_ay','results_az','results_wx','results_wy','results_wz')
+
 
 
 %% Plot the results on a figure
@@ -126,22 +119,6 @@ grid on;
 xlabel('\tau [sec]');
 ylabel('Normal Allan Deviation [rad/s]');
 legend('x-angular','y-angular','z-angular');
-
-
-
-%% Output results for yaml file
-fprintf('\n\n=================================\n');
-fprintf('rostopic: /imu0\n');
-fprintf('update_rate: %.2f\n',update_rate);
-fprintf('#Accelerometers\n');
-fprintf('accelerometer_noise_density: %.5f.\n',accelerometer_noise_density);
-fprintf('accelerometer_random_walk: %.5f.\n',0.0);
-fprintf('#Gyroscopes\n');
-fprintf('gyroscope_noise_density: %.5f.\n',gyroscope_noise_density);
-fprintf('gyroscope_random_walk: %.5f.\n',0.0);
-fprintf('=================================\n');
-
-
 
 
 

@@ -3,7 +3,7 @@ close all
 clear all
 
 % Read in our toolboxes
-addpath('functions')
+addpath('functions/allan_v3')
 
 % Our bag information
 bag_path = '../data/imu.bag';

@@ -3,7 +3,7 @@ close all
 clear all
 
 % Read in our toolboxes
-addpath('functions')
+addpath('functions/allan_v3')
 
 % Our bag information
 mat_path = '../data/imu.mat';
@@ -11,15 +11,6 @@ mat_path = '../data/imu.mat';
 
 % IMU information (todo: move this to the yaml file)
 update_rate = 400;
-
-% xsens mti-G-700 (page 32 and 33)
-% https://www.xsens.com/download/usermanual/MTi_usermanual.pdf
-gyroscope_noise_density = 0.01; %datasheet => deg/s/sqrt(Hz)
-accelerometer_noise_density = 60; %datasheet => µg/sqrt(Hz)
-
-% Convert to kalibr format
-gyroscope_noise_density = pi/180*gyroscope_noise_density; %convert to => rad/s/sqrt(Hz)
-accelerometer_noise_density = 10e-6*9.81*accelerometer_noise_density; %convert to => m/s^2/sqrt(Hz)
 
 
 %% Data processing
@@ -102,18 +93,6 @@ ylabel('Normal Allan Deviation [rad/s]');
 legend('x-angular','y-angular','z-angular');
 
 
-
-%% Output results for yaml file
-fprintf('\n=================================\n');
-
-fprintf('rostopic: /imu0\n');
-fprintf('update_rate: %.2f\n',freq);
-fprintf('\n#Accelerometers\n');
-fprintf('accelerometer_noise_density: %.5f.\n',accelerometer_noise_density);
-fprintf('accelerometer_random_walk: %.5f.\n',0.0);
-fprintf('\n#Gyroscopes\n');
-fprintf('gyroscope_noise_density: %.5f.\n',gyroscope_noise_density);
-fprintf('gyroscope_random_walk: %.5f.\n',0.0);
 
 
 
