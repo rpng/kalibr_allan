@@ -35,8 +35,13 @@ int main(int argc, char **argv) {
 
     // Get path
     boost::filesystem::path p(pathBag);
-    string pathParent = p.parent_path().c_str();
-    string pathMat = pathParent + "/" + p.stem().c_str() + ".mat";
+    string pathParent = p.parent_path().string();
+    string pathMat;
+    if(!pathParent.empty()) {
+        pathMat = pathParent+"/"+p.stem().string()+".mat";
+    } else {
+        pathMat = p.stem().string()+".mat";
+    }
 
 
     // Load rosbag here, and find messages we can play

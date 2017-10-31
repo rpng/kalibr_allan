@@ -6,10 +6,12 @@ clear all
 addpath('functions/allan_v3')
 
 % Our bag information
-mat_path = '../data/imu.mat';
+%mat_path = '../data/imu_mtig700.mat';
+mat_path = '../data/imu_tango.mat';
 
 % IMU information (todo: move this to the yaml file)
-update_rate = 400;
+%update_rate = 400;
+update_rate = 100;
 
 
 %% Data processing
@@ -34,8 +36,8 @@ fprintf('sample period of %.5f.\n',delta);
 
 % Calculate our tau range (max is half of the total measurements)
 taumax = floor((length(ts_imua.Time)-1)/2);
-%tau = delta*logspace(log10(delta),log10(taumax),1000);
-tau = delta*linspace(1,taumax,1000);
+tau = delta*logspace(log10(delta),log10(taumax),2000);
+%tau = delta*linspace(1,taumax,1000);
 
 
 %% Calculate the acceleration allan deviation of the time series data!
@@ -94,31 +96,13 @@ delete(j5)
 delete(j6)
 toc
 
-% Save workspace
-save(['../data/',datestr(now,30)])
-%save('../data/results.mat','ts_imua','ts_imuw','tau','results_ax','results_ay','results_az','results_wx','results_wy','results_wz')
+%% Save workspace
+filename = ['results_',datestr(now,30),'.mat'];
+fprintf('saving to: %s\n',filename);
+%save(['../data/',filename])
+save(['../data/',filename],'update_rate','ts_imua','ts_imuw','tau','taumax','results_ax','results_ay','results_az','results_wx','results_wy','results_wz')
+fprintf('done saving!\n');
 
-
-
-%% Plot the results on a figure
-figure(1);
-loglog(results_ax.tau1, sqrt(results_ax.sig2)); hold on;
-loglog(results_ay.tau1, sqrt(results_ay.sig2)); hold on;
-loglog(results_az.tau1, sqrt(results_az.sig2)); hold on;
-grid on;
-xlabel('\tau [sec]');
-ylabel('Normal Allan Deviation [m/s^2]');
-legend('x-acceleration','y-acceleration','z-acceleration');
-
-% Plot the results on a figure
-figure(2);
-loglog(results_wx.tau1, sqrt(results_wx.sig2)); hold on;
-loglog(results_wy.tau1, sqrt(results_wy.sig2)); hold on;
-loglog(results_wz.tau1, sqrt(results_wz.sig2)); hold on;
-grid on;
-xlabel('\tau [sec]');
-ylabel('Normal Allan Deviation [rad/s]');
-legend('x-angular','y-angular','z-angular');
 
 
 
