@@ -1,6 +1,6 @@
 # kalibr_allan
 
-This has some nice utility scripts and packages that allow for calculation of the noise values for use in both kalibr and IMU filters.
+This has some nice utility scripts and packages that allow for calculation of the noise values for use in both [kalibr](https://github.com/ethz-asl/kalibr) and IMU filters.
 The dataset of the manufacture can find the "white noise" values for the system, but the bias noises need to be found through experimental tests.
 The `gyroscope_random_walk` and `accelerometer_random_walk` values can normally be found on the IMU datasheet as either angular random walk or velocity random walk, respectively.
 
@@ -32,12 +32,12 @@ Accelerometer "random walk" | `accelerometer_random_walk` | <img src="https://la
 4. Interpret the generated charts to find noise values
     * Run the process results script
     * Will fit a -1/2 line to the left side of the allan plot
-    * White noise is at tau=1 (according to kalibr wiki)
+    * White noise is at tau=1 (according to [kalibr wiki](https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model#from-the-allan-standard-deviation-ad))
     * Will fit a 1/2 line to the right side of the allan plot
-    * Random walk is at tau=3 (according to kalibr wiki)
+    * Random walk is at tau=3 (according to [kalibr wiki](https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model#from-the-allan-standard-deviation-ad))
 
 
 ## Example Plots (xsens mti-G-700)
-![allan chart acceleration](docs/example_acceleration.png)
+![allan chart acceleration](data/results_20171031T115123_accel.png)
 
-![allan chart angular velocity](docs/example_angular.png)
+![allan chart angular velocity](data/results_20171031T115123_gyro.png)
