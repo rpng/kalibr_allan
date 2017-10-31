@@ -29,8 +29,12 @@ Accelerometer "random walk" | `accelerometer_random_walk` | <img src="https://la
     * We do *not* recommend the ROS version as matlab parsing of raw ROS bags is slow
     * If using ROS version, it uses the matlab robotics toolbox
     * If using the parallel version, it uses the matlab parallel toolbox
-4. TODO: Interpret the generated charts to find noise values
-
+4. Interpret the generated charts to find noise values
+    * Run the process results script
+    * Will fit a -1/2 line to the left side of the allan plot
+    * White noise is at tau=1 (according to kalibr wiki)
+    * Will fit a 1/2 line to the right side of the allan plot
+    * Random walk is at tau=3 (according to kalibr wiki)
 
 
 ## Example Plots (xsens mti-G-700)
