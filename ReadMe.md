@@ -33,7 +33,7 @@ Accelerometer "random walk" | `accelerometer_random_walk` | <img src="https://la
     * White noise is at tau=1 (according to [kalibr wiki](https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model#from-the-allan-standard-deviation-ad))
     * Will fit a 1/2 line to the right side of the allan plot
     * Random walk is at tau=3 (according to [kalibr wiki](https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model#from-the-allan-standard-deviation-ad))
-5. Some example data can be found this **[this](https://drive.google.com/drive/folders/1a3Es85JDKl7tSpVWEUZryOwtsXB8793o?usp=sharing)**
+5. Some example data can be found **[HERE](https://drive.google.com/drive/folders/1a3Es85JDKl7tSpVWEUZryOwtsXB8793o?usp=sharing)**:
     * XSENS MTI-G-700
     * Tango Yellowstone Tablet
     * ASL-ETH VI-Sensor
